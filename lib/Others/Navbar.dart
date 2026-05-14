@@ -12,11 +12,8 @@ class _NavbarState extends State<Navbar> {
 
   final List<Map<String, dynamic>> navItems = [
     {"title": "Dashboard", "icon": Icons.dashboard},
-
     {"title": "Take Orders", "icon": Icons.shopping_cart},
-
     {"title": "Prepare Order", "icon": Icons.restaurant},
-
     {"title": "Kitchen Operation", "icon": Icons.kitchen},
   ];
 
@@ -35,60 +32,64 @@ class _NavbarState extends State<Navbar> {
         ],
       ),
 
-      child: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: Row(
-          children: List.generate(navItems.length, (index) {
-            final isSelected = selectedIndex == index;
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: ConstrainedBox(
+              constraints: BoxConstraints(minWidth: constraints.maxWidth),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: List.generate(navItems.length, (index) {
+                  final isSelected = selectedIndex == index;
 
-            return GestureDetector(
-              onTap: () {
-                setState(() {
-                  selectedIndex = index;
-                });
-              },
+                  return GestureDetector(
+                    onTap: () {
+                      setState(() {
+                        selectedIndex = index;
+                      });
+                    },
+                    child: Container(
+                      margin: const EdgeInsets.only(right: 16),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 18,
+                        vertical: 10,
+                      ),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            navItems[index]['icon'],
+                            color: isSelected
+                                ? const Color.fromARGB(255, 111, 111, 111)
+                                : Colors.black87,
+                          ),
 
-              child: Container(
-                margin: const EdgeInsets.only(right: 16),
+                          const SizedBox(height: 4),
 
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 18,
-                  vertical: 10,
-                ),
-
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-
-                child: Column(
-                  children: [
-                    Icon(
-                      navItems[index]['icon'],
-                      color: isSelected
-                          ? const Color.fromARGB(255, 111, 111, 111)
-                          : Colors.black87,
-                    ),
-
-                    const SizedBox(width: 8),
-                    Text(
-                      navItems[index]["title"],
-
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-
-                        color: isSelected
-                            ? const Color.fromARGB(255, 111, 111, 111)
-                            : Colors.black87,
+                          Text(
+                            navItems[index]["title"],
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                              color: isSelected
+                                  ? const Color.fromARGB(255, 111, 111, 111)
+                                  : Colors.black87,
+                            ),
+                          ),
+                        ],
                       ),
                     ),
-                  ],
-                ),
+                  );
+                }),
               ),
-            );
-          }),
-        ),
+            ),
+          );
+        },
       ),
     );
   }
