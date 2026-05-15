@@ -1,4 +1,336 @@
+// import 'package:flutter/material.dart';
+
+// class Schedule extends StatefulWidget {
+//   const Schedule({super.key});
+
+//   @override
+//   State<Schedule> createState() => _ScheduleState();
+// }
+
+// class _ScheduleState extends State<Schedule> {
+//   final List<String> hours = [
+//     "6am",
+//     "7am",
+//     "8am",
+//     "9am",
+//     "10am",
+//     "11am",
+//     "12pm",
+//     "1pm",
+//     "2pm",
+//     "3pm",
+//     "4pm",
+//     "5pm",
+//     "6pm",
+//     "7pm",
+//     "8pm",
+//     "9pm",
+//     "10pm",
+//   ];
+
+//   final List<String> times = ["06:43"];
+//   @override
+//   Widget build(BuildContext context) {
+//     return Scaffold(
+//       backgroundColor: Colors.white,
+//       body: SingleChildScrollView(
+//         scrollDirection: Axis.horizontal,
+//         child: SingleChildScrollView(
+//           scrollDirection: Axis.vertical,
+//           child: Column(
+//             mainAxisSize: MainAxisSize.min,
+//             children: [
+//               Row(
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: [
+//                   Container(
+//                     width: 50,
+//                     height: 25,
+//                     decoration: BoxDecoration(
+//                       border: Border(
+//                         right: BorderSide(color: Colors.grey.shade300),
+//                         top: BorderSide(color: Colors.grey.shade300),
+//                       ),
+//                     ),
+//                   ),
+
+//                   ...hours.map(
+//                     (hour) => Container(
+//                       width: 50,
+//                       height: 25,
+//                       alignment: Alignment.center,
+//                       decoration: BoxDecoration(
+//                         border: Border(
+//                           right: BorderSide(color: Colors.grey.shade300),
+//                           bottom: BorderSide(color: Colors.grey.shade300),
+//                         ),
+//                       ),
+//                       child: Text(
+//                         hour,
+//                         style: const TextStyle(
+//                           fontSize: 12,
+//                           fontWeight: FontWeight.w700,
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+
+//               Row(
+//                 mainAxisSize: MainAxisSize.min,
+//                 children: [
+//                   Container(
+//                     width: 50,
+//                     height: 25,
+//                     decoration: BoxDecoration(
+//                       border: Border.all(color: Colors.grey.shade300),
+//                     ),
+//                   ),
+
+//                   ...List.generate(
+//                     hours.length,
+//                     (index) => Container(
+//                       width: 50,
+//                       height: 25,
+//                       decoration: BoxDecoration(
+//                         border: Border(
+//                           right: BorderSide(color: Colors.grey.shade300),
+//                         ),
+//                       ),
+//                     ),
+//                   ),
+//                 ],
+//               ),
+//               Row(children: [
+
+//                 ],
+//               ),
+//             ],
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+// }
+
 import 'package:flutter/material.dart';
+
+class MealBlock {
+  final String title;
+  final String? prepLabel;
+  final String? prepTime;
+  final String? serveLabel;
+  final String? serveTime;
+  final String? menuLabel;
+  final String? counterLabel;
+  final double startHour;
+  final double endHour;
+
+  const MealBlock({
+    required this.title,
+    this.prepLabel,
+    this.prepTime,
+    this.serveLabel,
+    this.serveTime,
+    this.menuLabel,
+    this.counterLabel,
+    required this.startHour,
+    required this.endHour,
+  });
+}
+
+class StaffShift {
+  final String duration;
+  final String name;
+  final String role;
+  final double startHour;
+  final double endHour;
+
+  const StaffShift({
+    required this.duration,
+    required this.name,
+    required this.role,
+    required this.startHour,
+    required this.endHour,
+  });
+}
+
+const double _kColWidth = 60.0;
+const double _kRowLabelWidth = 70.0;
+const double _kHeaderHeight = 30.0;
+const double _kMealRowHeight = 110.0;
+const double _kShiftRowHeight = 44.0;
+
+const List<String> _hours = [
+  '6am',
+  '7am',
+  '8am',
+  '9am',
+  '10am',
+  '11am',
+  '12pm',
+  '1pm',
+  '2pm',
+  '3pm',
+  '4pm',
+  '5pm',
+  '6pm',
+  '7pm',
+  '8pm',
+  '9pm',
+  '10pm',
+];
+
+final List<MealBlock> _guestMeals = [
+  MealBlock(
+    title: 'Break Fast',
+    prepLabel: 'Preparation Time',
+    prepTime: '6:00 AM – 8:30 AM',
+    serveLabel: 'Serve Time',
+    serveTime: '8:30 AM – 11:00 AM',
+    menuLabel: 'Menu',
+    counterLabel: 'Live Counter',
+    startHour: 0,
+    endHour: 5,
+  ),
+  MealBlock(
+    title: 'Lunch',
+    prepLabel: 'Preparation Time',
+    prepTime: '11:00 AM – 12:30 PM',
+    serveLabel: 'Serve Time',
+    serveTime: '12:30 PM – 03:00 PM',
+    menuLabel: 'Menu',
+    counterLabel: 'Live Counter',
+    startHour: 5,
+    endHour: 9,
+  ),
+  MealBlock(
+    title: 'Dinner',
+    prepLabel: 'Preparation Time',
+    prepTime: '05:00 PM – 07:30 PM',
+    serveLabel: 'Serve Time',
+    serveTime: '07:30 PM – 10:00 PM',
+    menuLabel: 'Menu',
+    counterLabel: 'Live Counter',
+    startHour: 11,
+    endHour: 16,
+  ),
+];
+
+final List<MealBlock> _eventMeals = [
+  MealBlock(
+    title: 'Lunch',
+    prepLabel: 'Event Name 1',
+    prepTime: 'Preparation Time\n10:00 AM – 12:00 PM',
+    serveLabel: 'Event Name 1',
+    serveTime: 'Serve Time\n12:00 PM – 2:30 PM',
+    menuLabel: 'Menu',
+    counterLabel: 'Live Counter',
+    startHour: 4,
+    endHour: 8.5,
+  ),
+  MealBlock(
+    title: 'Dinner',
+    prepLabel: 'Event Name 2',
+    prepTime: 'Preparation Time\n5:00 PM – 7:00 PM',
+    serveLabel: 'Event Name 2',
+    serveTime: 'Serve Time\n7:00 PM – 9:30 PM',
+    menuLabel: 'Menu',
+    counterLabel: 'Live Counter',
+    startHour: 11,
+    endHour: 15.5,
+  ),
+];
+
+final List<List<StaffShift>> _shiftRows = [
+  [
+    StaffShift(
+      duration: '3:45/8hour',
+      name: 'Rajeev Singh',
+      role: 'Head Chef',
+      startHour: 0,
+      endHour: 4,
+    ),
+    StaffShift(
+      duration: '3:45/8hour',
+      name: 'Rajeev Singh',
+      role: 'Head Chef',
+      startHour: 6,
+      endHour: 10,
+    ),
+  ],
+  [
+    StaffShift(
+      duration: '3:45/8hour',
+      name: 'Rajeev Singh',
+      role: 'Head Chef',
+      startHour: 1,
+      endHour: 6,
+    ),
+  ],
+  [
+    StaffShift(
+      duration: '3:45/8hour',
+      name: 'Rajeev Singh',
+      role: 'Head Chef',
+      startHour: 3,
+      endHour: 8,
+    ),
+  ],
+  [
+    StaffShift(
+      duration: '3:45/8hour',
+      name: 'Rajeev Singh',
+      role: 'Head Chef',
+      startHour: 1,
+      endHour: 7,
+    ),
+  ],
+  [
+    StaffShift(
+      duration: '3:45/8hour',
+      name: 'Rajeev Singh',
+      role: 'Head Chef',
+      startHour: 0,
+      endHour: 4,
+    ),
+    StaffShift(
+      duration: '3:45/8hour',
+      name: 'Rajeev Singh',
+      role: 'Head Chef',
+      startHour: 6,
+      endHour: 10,
+    ),
+  ],
+  [
+    StaffShift(
+      duration: '3:45/8hour',
+      name: 'Rajeev Singh',
+      role: 'Head Chef',
+      startHour: 0,
+      endHour: 5,
+    ),
+  ],
+  [
+    StaffShift(
+      duration: '3:45/8hour',
+      name: 'Rajeev Singh',
+      role: 'Head Chef',
+      startHour: 3,
+      endHour: 8,
+    ),
+  ],
+  [
+    StaffShift(
+      duration: '3:45/8hour',
+      name: 'Rajeev Singh',
+      role: 'Head Chef',
+      startHour: 1,
+      endHour: 7,
+    ),
+  ],
+];
 
 class Schedule extends StatefulWidget {
   const Schedule({super.key});
@@ -8,79 +340,46 @@ class Schedule extends StatefulWidget {
 }
 
 class _ScheduleState extends State<Schedule> {
-  final List<String> hours = [
-    "6am",
-    "7am",
-    "8am",
-    "9am",
-    "10am",
-    "11am",
-    "12pm",
-    "1pm",
-    "2pm",
-    "3pm",
-    "4pm",
-    "5pm",
-    "6pm",
-    "7pm",
-    "8pm",
-    "9pm",
-    "10pm",
-  ];
+  final _horizScroll = ScrollController();
+  final _vertScroll = ScrollController();
 
-  final List<Map<String, dynamic>> chefSchedules = [
-    {"start": 0.2, "width": 4.5, "color": const Color(0xffD9F5EA)},
-    {"start": 8.0, "width": 4.5, "color": const Color(0xffD9F5EA)},
-    {"start": 0.2, "width": 7.0, "color": const Color(0xffF8F4DF)},
-    {"start": 4.5, "width": 10.0, "color": const Color(0xffD9F5EA)},
-    {"start": 1.2, "width": 14.0, "color": const Color(0xffD9F5EA)},
-    {"start": 0.2, "width": 6.0, "color": const Color(0xffD9F5EA)},
-    {"start": 8.0, "width": 6.0, "color": const Color(0xffD9F5EA)},
-    {"start": 0.2, "width": 7.0, "color": const Color(0xffF8F4DF)},
-  ];
+  double _hourToX(double hour) => hour * _kColWidth;
+  double _hourToWidth(double start, double end) => (end - start) * _kColWidth;
+  double _gridWidth() => _hours.length * _kColWidth;
+  double _totalWidth() => _kRowLabelWidth + _gridWidth();
+
+  @override
+  void dispose() {
+    _horizScroll.dispose();
+    _vertScroll.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final isMobile = screenWidth < 600;
-    final isTablet = screenWidth < 1024;
-
-    // Calculate responsive width and ensure it is at least as wide as the
-    // schedule content (left label + hourly columns) so the top Row won't
-    // overflow. This allows horizontal scrolling when content is wider.
-    final double hourWidth = isMobile ? 55.0 : (isTablet ? 70.0 : 85.0);
-    final double leftLabelWidth = isMobile ? 70.0 : 90.0;
-    final double contentWidth = leftLabelWidth + hours.length * hourWidth;
-
-    // Base container width (keeps previous desktop/tablet behavior)
-    double baseContainerWidth = isMobile
-        ? screenWidth
-        : (isTablet ? screenWidth * 0.9 : 1400.0);
-
-    // Use the larger of baseContainerWidth and contentWidth to avoid overflow
-    double containerWidth = baseContainerWidth < contentWidth
-        ? contentWidth
-        : baseContainerWidth;
-
     return Scaffold(
       backgroundColor: Colors.white,
-      body: SingleChildScrollView(
-        scrollDirection: Axis.horizontal,
-        child: SizedBox(
-          width: containerWidth,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          controller: _vertScroll,
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                buildTopHours(isMobile, isTablet),
-                buildMealSection(isMobile, isTablet),
-                SizedBox(height: isMobile ? 20 : 30),
-                ...List.generate(
-                  chefSchedules.length,
-                  (index) =>
-                      buildChefBar(chefSchedules[index], isMobile, isTablet),
-                ),
-                SizedBox(height: isMobile ? 20 : 30),
-              ],
+            controller: _horizScroll,
+            scrollDirection: Axis.horizontal,
+            child: SizedBox(
+              width: _totalWidth(),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildTimeHeader(),
+                  _buildMealRow('Guest\nBuffet', _guestMeals),
+                  _buildMealRow(
+                    'Event\nBuffet\nOrders',
+                    _eventMeals,
+                    hasNA: true,
+                  ),
+                  ..._shiftRows.map((row) => _buildShiftRow(row)),
+                ],
+              ),
             ),
           ),
         ),
@@ -88,293 +387,396 @@ class _ScheduleState extends State<Schedule> {
     );
   }
 
-  Widget buildTopHours(bool isMobile, bool isTablet) {
-    double hourWidth = isMobile ? 55 : (isTablet ? 70 : 85);
-    double leftWidth = isMobile ? 70 : 90;
-
-    double headerHeight = isMobile ? 35 : 40;
-    double bodyHeight = isMobile ? 35 : 45;
-
-    double fontSize = isMobile ? 9 : 12;
-
-    return Container(
-      decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-      ),
-      child: Column(
-        children: [
-          // TOP ROW
-          Row(
-            children: [
-              Container(
-                width: leftWidth,
-                height: headerHeight,
-                decoration: BoxDecoration(
-                  border: Border(
-                    right: BorderSide(color: Colors.grey.shade300),
-                  ),
-                ),
-              ),
-
-              ...hours.map(
-                (hour) => Container(
-                  width: hourWidth,
-                  height: headerHeight,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      right: BorderSide(color: Colors.grey.shade300),
-                      bottom: BorderSide(color: Colors.grey.shade300),
-                    ),
-                  ),
-                  child: Text(
-                    hour,
-                    style: TextStyle(
-                      fontSize: fontSize,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-
-          // SECOND ROW
-          Row(
-            children: [
-              // LEFT SIDE EMPTY
-              Container(
-                width: leftWidth,
-                height: bodyHeight,
-                decoration: BoxDecoration(
-                  border: Border(
-                    right: BorderSide(color: Colors.grey.shade300),
-                  ),
-                ),
-              ),
-
-              // EMPTY TIME CELLS
-              ...List.generate(
-                hours.length,
-                (index) => Container(
-                  width: hourWidth,
-                  height: bodyHeight,
-                  decoration: BoxDecoration(
-                    border: Border(
-                      right: BorderSide(color: Colors.grey.shade300),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildMealSection(bool isMobile, bool isTablet) {
-    final mealHeight = isMobile ? 100 : 200;
-
-    return Container(
-      height: mealHeight * 2.0,
-      decoration: BoxDecoration(
-        border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
-      ),
-      child: Column(
-        children: [
-          Expanded(
-            child: Row(
-              children: [
-                buildLeftLabel("Guest\nBuffet", isMobile, isTablet),
-                Expanded(
-                  child: Row(
-                    children: [
-                      buildMealCard(
-                        "Break Fast",
-                        "Preparation Time\n6:00 AM - 8:30 AM",
-                        "Serve Time\n8:30 AM - 11:00 AM",
-                        isMobile,
-                        isTablet,
-                      ),
-                      buildMealCard(
-                        "Lunch",
-                        "Preparation Time\n11:00 AM - 12:30 PM",
-                        "Serve Time\n12:30 PM - 03:00 PM",
-                        isMobile,
-                        isTablet,
-                      ),
-                      buildMealCard(
-                        "Dinner",
-                        "Preparation Time\n05:00 PM - 07:30 PM",
-                        "Serve Time\n07:30 PM - 10:00 PM",
-                        isMobile,
-                        isTablet,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: Row(
-              children: [
-                buildLeftLabel("Event\nBuffet", isMobile, isTablet),
-                Expanded(
-                  child: Row(
-                    children: [
-                      buildMealCard("N/A", "", "", isMobile, isTablet),
-                      buildMealCard(
-                        "Lunch",
-                        "Event Name 1\nPreparation Time\n10:00 AM - 12:00 PM",
-                        "Serve Time\n12:00 PM - 2:30 PM",
-                        isMobile,
-                        isTablet,
-                      ),
-                      buildMealCard(
-                        "Dinner",
-                        "Event Name 2\nPreparation Time\n5:00 PM - 7:00 PM",
-                        "Serve Time\n7:00 PM - 9:30 PM",
-                        isMobile,
-                        isTablet,
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget buildLeftLabel(String text, bool isMobile, bool isTablet) {
-    double labelWidth = isMobile ? 70 : 90;
-    double fontSize = isMobile ? 10.0 : 12.0;
-
-    return Container(
-      width: labelWidth,
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        border: Border(right: BorderSide(color: Colors.grey.shade300)),
-      ),
-      child: Text(
-        text,
-        textAlign: TextAlign.center,
-        style: TextStyle(color: Colors.grey.shade700, fontSize: fontSize),
-      ),
-    );
-  }
-
-  Widget buildMealCard(
-    String title,
-    String prep,
-    String serve,
-    bool isMobile,
-    bool isTablet,
-  ) {
-    final titleFontSize = isMobile ? 11.0 : 14.0;
-    final textFontSize = isMobile ? 7.0 : 9.0;
-    final padding = isMobile ? 6.0 : 8.0;
-
-    return Expanded(
-      child: Container(
-        padding: EdgeInsets.all(padding),
-        decoration: BoxDecoration(
-          border: Border(right: BorderSide(color: Colors.grey.shade300)),
-        ),
+  Widget _buildTimeHeader() {
+    return SizedBox(
+      height: _kHeaderHeight * 2,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text(
-              title,
-              style: TextStyle(
-                fontWeight: FontWeight.w600,
-                fontSize: titleFontSize,
-              ),
+            Row(
+              children: [
+                Container(
+                  width: _kRowLabelWidth,
+                  height: _kHeaderHeight,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+
+                    border: Border(
+                      top: BorderSide(color: Colors.grey, width: 1.2),
+                      right: BorderSide(color: Colors.grey, width: 1.2),
+                    ),
+                  ),
+                ),
+                ..._hours.map(
+                  (h) => SizedBox(
+                    width: _kColWidth,
+                    height: _kHeaderHeight,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          bottom: BorderSide(color: Colors.grey.shade300),
+                          top: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                      child: Center(
+                        child: Text(
+                          h,
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF444444),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
             ),
-            if (prep.isNotEmpty) ...[
-              SizedBox(height: isMobile ? 4 : 8),
-              Text(
-                prep,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: textFontSize),
-              ),
-            ],
-            if (serve.isNotEmpty) ...[
-              SizedBox(height: isMobile ? 3 : 6),
-              Text(
-                serve,
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: textFontSize, color: Colors.teal),
-              ),
-            ],
+            Row(
+              children: [
+                Container(
+                  width: _kRowLabelWidth,
+                  height: _kHeaderHeight,
+                  alignment: Alignment.center,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
+
+                    border: Border(
+                      right: BorderSide(color: Colors.grey, width: 1.2),
+                    ),
+                  ),
+                ),
+                ..._hours.map(
+                  (h) => SizedBox(
+                    width: _kColWidth,
+                    height: _kHeaderHeight,
+                    child: Container(
+                      decoration: BoxDecoration(
+                        border: Border(
+                          right: BorderSide(color: Colors.grey.shade300),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget buildChefBar(Map<String, dynamic> data, bool isMobile, bool isTablet) {
-    final hourWidth = isMobile ? 50.0 : (isTablet ? 65.0 : 75.0);
-    final barHeight = isMobile ? 40.0 : 55.0;
-    final barInnerHeight = isMobile ? 22.0 : 30.0;
-    final fontSize = isMobile ? 9.0 : 12.0;
-
-    final startValue = (data["start"] as num).toDouble();
-    final widthValue = (data["width"] as num).toDouble();
-    final leftPosition = startValue * hourWidth;
-    final containerWidth = widthValue * hourWidth;
-
+  Widget _buildMealRow(
+    String label,
+    List<MealBlock> blocks, {
+    bool hasNA = false,
+  }) {
     return SizedBox(
-      height: barHeight,
-      child: Stack(
+      height: _kMealRowHeight,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Positioned(
-            left: leftPosition,
-            child: Container(
-              width: containerWidth,
-              height: barInnerHeight,
-              decoration: BoxDecoration(
-                color: data["color"] as Color,
-                borderRadius: BorderRadius.circular(4),
+          Container(
+            width: _kRowLabelWidth,
+            padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 8),
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(color: Colors.grey.shade400, width: 1.2),
+                bottom: BorderSide(color: Colors.grey.shade400, width: 1.2),
               ),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Text(
-                        "3:45/8hour",
-                        style: TextStyle(fontSize: fontSize),
-                      ),
-                    ),
-                    Container(width: 1, height: 15, color: Colors.green),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Text(
-                        "Rajeev Singh",
-                        style: TextStyle(fontSize: fontSize),
-                      ),
-                    ),
-                    Container(width: 1, height: 15, color: Colors.green),
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 4),
-                      child: Text(
-                        "Head Chef",
-                        style: TextStyle(fontSize: fontSize),
-                      ),
-                    ),
-                  ],
-                ),
+            ),
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w900,
+                color: Color(0xFF333333),
               ),
             ),
           ),
+          SizedBox(
+            width: _gridWidth(),
+            child: Stack(
+              children: [
+                if (hasNA)
+                  Positioned(
+                    left: 8,
+                    top: (_kMealRowHeight - 14) / 2,
+                    child: const Text(
+                      'N/A',
+                      style: TextStyle(fontSize: 12, color: Color(0xFF999999)),
+                    ),
+                  ),
+                ...blocks.map(_buildMealBlock),
+              ],
+            ),
+          ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildMealBlock(MealBlock b) {
+    final left = _hourToX(b.startHour);
+    final width = _hourToWidth(b.startHour, b.endHour);
+
+    return Positioned(
+      left: left,
+      top: 0,
+      width: width,
+      height: _kMealRowHeight,
+      child: Container(
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.grey.shade300),
+          borderRadius: BorderRadius.circular(4),
+        ),
+
+        child: Column(
+          children: [
+            // ================= TITLE =================
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(vertical: 6),
+              alignment: Alignment.center,
+              decoration: BoxDecoration(
+                border: Border(bottom: BorderSide(color: Colors.grey.shade300)),
+              ),
+              child: Text(
+                b.title,
+                style: const TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w700,
+                  color: Color(0xFF222222),
+                ),
+              ),
+            ),
+
+            // ================= BODY =================
+            Expanded(
+              child: Row(
+                children: [
+                  // ================= PREP =================
+                  if (b.prepLabel != null)
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 4,
+                        ),
+                        decoration: BoxDecoration(
+                          border: Border(
+                            right: BorderSide(color: Colors.grey.shade300),
+                          ),
+                        ),
+
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              b.prepLabel!,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+
+                            const SizedBox(height: 2),
+
+                            Flexible(
+                              child: Text(
+                                b.prepTime!,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 9,
+                                  color: Color(0xFF666666),
+                                ),
+                              ),
+                            ),
+
+                            if (b.menuLabel != null) ...[
+                              const SizedBox(height: 2),
+
+                              Text(
+                                b.menuLabel!,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 9,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+
+                  // ================= SERVE =================
+                  if (b.serveLabel != null)
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 6,
+                          vertical: 4,
+                        ),
+
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(
+                              b.serveLabel!,
+                              textAlign: TextAlign.center,
+                              style: const TextStyle(
+                                fontSize: 10,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+
+                            const SizedBox(height: 2),
+
+                            Flexible(
+                              child: Text(
+                                b.serveTime!,
+                                textAlign: TextAlign.center,
+                                style: const TextStyle(
+                                  fontSize: 9,
+                                  color: Color(0xFF666666),
+                                ),
+                              ),
+                            ),
+
+                            if (b.counterLabel != null) ...[
+                              const SizedBox(height: 2),
+
+                              Text(
+                                b.counterLabel!,
+                                textAlign: TextAlign.center,
+                                overflow: TextOverflow.ellipsis,
+                                style: const TextStyle(
+                                  fontSize: 9,
+                                  color: Colors.grey,
+                                ),
+                              ),
+                            ],
+                          ],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _mealSubBlock(String label, String time, String? link) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 4),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            label,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 9, color: Color(0xFF555555)),
+          ),
+          const SizedBox(height: 2),
+          Text(
+            time,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 8.5, color: Color(0xFF777777)),
+          ),
+          if (link != null) ...[
+            const SizedBox(height: 3),
+            Text(
+              link,
+              style: const TextStyle(
+                fontSize: 9,
+                color: Color(0xFF4CAF82),
+                decoration: TextDecoration.underline,
+              ),
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildShiftRow(List<StaffShift> shifts) {
+    return SizedBox(
+      height: _kShiftRowHeight,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            width: _kRowLabelWidth,
+            decoration: BoxDecoration(
+              border: Border(
+                right: BorderSide(color: Colors.grey.shade400, width: 1.2),
+              ),
+            ),
+          ),
+          SizedBox(
+            width: _gridWidth(),
+            child: Stack(children: shifts.map(_buildShiftBar).toList()),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildShiftBar(StaffShift s) {
+    final left = _hourToX(s.startHour);
+    final width = _hourToWidth(s.startHour, s.endHour);
+
+    return Positioned(
+      left: left,
+      top: 6,
+      width: width,
+      height: _kShiftRowHeight - 12,
+      child: Container(
+        decoration: BoxDecoration(
+          color: const Color(0xFFD4F4E8),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: Row(
+          children: [
+            Text(
+              s.duration,
+              style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF2D7D57),
+              ),
+            ),
+            const Spacer(),
+            Text(
+              s.name,
+              style: const TextStyle(fontSize: 10, color: Color(0xFF333333)),
+            ),
+            Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8),
+              width: 1,
+              height: 14,
+              color: Colors.grey.shade400,
+            ),
+            Text(
+              s.role,
+              style: const TextStyle(fontSize: 10, color: Color(0xFF333333)),
+            ),
+          ],
+        ),
       ),
     );
   }
