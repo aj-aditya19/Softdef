@@ -65,7 +65,7 @@ class _NavbarState extends State<Navbar> {
                           Icon(
                             navItems[index]['icon'],
                             color: isSelected
-                                ? const Color.fromARGB(255, 111, 111, 111)
+                                ? const Color.fromARGB(255, 163, 159, 159)
                                 : Colors.black87,
                           ),
 
