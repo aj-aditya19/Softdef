@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Liveorders extends StatefulWidget {
   const Liveorders({super.key});
@@ -88,14 +89,18 @@ class _LiveordersState extends State<Liveorders> {
       children: [
         Text(
           title,
-          style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+          style: GoogleFonts.outfit(
+            color: Colors.grey.shade600,
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
+          ),
         ),
 
         const SizedBox(height: 4),
 
         Text(
           value,
-          style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 14),
         ),
       ],
     );
@@ -108,14 +113,18 @@ class _LiveordersState extends State<Liveorders> {
       children: [
         Text(
           title,
-          style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+          style: GoogleFonts.outfit(
+            color: Colors.grey.shade600,
+            fontSize: 11,
+            fontWeight: FontWeight.w500,
+          ),
         ),
 
         const SizedBox(height: 6),
 
         Text(
           value,
-          style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 15),
+          style: GoogleFonts.outfit(fontWeight: FontWeight.w600, fontSize: 12),
         ),
       ],
     );
@@ -172,10 +181,10 @@ class _LiveordersState extends State<Liveorders> {
                               style: TextStyle(
                                 color: Colors.black,
                                 fontWeight: isSelected
-                                    ? FontWeight.bold
+                                    ? FontWeight.w600
                                     : FontWeight.w500,
 
-                                fontSize: 16,
+                                fontSize: 14,
                               ),
                             ),
                           ),
@@ -318,9 +327,15 @@ class _LiveordersState extends State<Liveorders> {
 
                         Align(
                           alignment: Alignment.centerLeft,
-
                           child: Container(
                             margin: const EdgeInsets.all(16),
+
+                            decoration: BoxDecoration(
+                              color: const Color.fromARGB(255, 239, 103, 93),
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+
+                            clipBehavior: Clip.antiAlias,
 
                             child: OutlinedButton(
                               onPressed: () {},
@@ -338,7 +353,11 @@ class _LiveordersState extends State<Liveorders> {
 
                               child: const Text(
                                 "Cancel Order",
-                                style: TextStyle(color: Colors.black),
+                                style: TextStyle(
+                                  color: Colors.black,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
+                                ),
                               ),
                             ),
                           ),

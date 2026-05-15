@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Menubar extends StatefulWidget {
   final Function(int) onMenuSelected;
@@ -53,7 +54,9 @@ class _MenubarState extends State<Menubar> {
                 ),
                 child: Text(
                   menuItems[index],
-                  style: TextStyle(
+                  style: GoogleFonts.outfit(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w600,
                     color: isSelected ? Colors.white : Colors.black,
                   ),
                 ),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Shelflifeitems extends StatefulWidget {
   const Shelflifeitems({super.key});
@@ -94,48 +95,49 @@ class _ShelflifeitemsState extends State<Shelflifeitems> {
             DataColumn(
               label: Text(
                 "Item ID",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
               ),
             ),
 
             DataColumn(
               label: Text(
                 "Item Name",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
               ),
             ),
 
             DataColumn(
               label: Text(
                 "Item Type",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
               ),
             ),
 
             DataColumn(
               label: Text(
                 "Preservation Method",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
               ),
             ),
 
             DataColumn(
               label: Text(
                 "Storage Location",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
               ),
             ),
             DataColumn(
               label: Text(
                 "Total Available Quantity",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
               ),
             ),
             DataColumn(
               label: Text(
                 "Days Left to Shelf Life",
                 style: TextStyle(
-                  fontWeight: FontWeight.bold,
+                  fontWeight: FontWeight.w600,
+                  fontSize: 11,
                   color: Colors.red,
                 ),
               ),
@@ -143,13 +145,13 @@ class _ShelflifeitemsState extends State<Shelflifeitems> {
             DataColumn(
               label: Text(
                 "Available",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
               ),
             ),
             DataColumn(
               label: Text(
                 "Action",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 11),
               ),
             ),
           ],
@@ -157,14 +159,54 @@ class _ShelflifeitemsState extends State<Shelflifeitems> {
           rows: items.map((item) {
             return DataRow(
               cells: [
-                DataCell(Text(item["itemId"]!)),
-                DataCell(Text(item["itemName"]!)),
-                DataCell(Text(item["itemType"]!)),
-                DataCell(Text(item["preservationmethod"]!)),
-                DataCell(Text(item["storagelocation"]!)),
-                DataCell(Text(item["totalquantity"]!)),
-                DataCell(Text(item["dayslefttoshellife"]!)),
-                DataCell(Text(item["available"]!)),
+                DataCell(
+                  Text(
+                    item["itemId"]!,
+                    style: GoogleFonts.outfit(fontSize: 11),
+                  ),
+                ),
+                DataCell(
+                  Text(
+                    item["itemName"]!,
+                    style: GoogleFonts.outfit(fontSize: 11),
+                  ),
+                ),
+                DataCell(
+                  Text(
+                    item["itemType"]!,
+                    style: GoogleFonts.outfit(fontSize: 11),
+                  ),
+                ),
+                DataCell(
+                  Text(
+                    item["preservationmethod"]!,
+                    style: GoogleFonts.outfit(fontSize: 11),
+                  ),
+                ),
+                DataCell(
+                  Text(
+                    item["storagelocation"]!,
+                    style: GoogleFonts.outfit(fontSize: 11),
+                  ),
+                ),
+                DataCell(
+                  Text(
+                    item["totalquantity"]!,
+                    style: GoogleFonts.outfit(fontSize: 11),
+                  ),
+                ),
+                DataCell(
+                  Text(
+                    item["dayslefttoshellife"]!,
+                    style: GoogleFonts.outfit(fontSize: 11),
+                  ),
+                ),
+                DataCell(
+                  Text(
+                    item["available"]!,
+                    style: GoogleFonts.outfit(fontSize: 11),
+                  ),
+                ),
                 DataCell(
                   Row(
                     children: [
@@ -180,7 +222,11 @@ class _ShelflifeitemsState extends State<Shelflifeitems> {
                         ),
                         child: Text(
                           "Set Discount Offer",
-                          style: TextStyle(color: Colors.white),
+                          style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                       Container(
@@ -196,7 +242,11 @@ class _ShelflifeitemsState extends State<Shelflifeitems> {
                         ),
                         child: Text(
                           "Remove From Watchlist",
-                          style: TextStyle(color: Colors.black),
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                       ),
                     ],

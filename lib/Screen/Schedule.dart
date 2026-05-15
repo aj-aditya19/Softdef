@@ -257,7 +257,9 @@ class _ScheduleState extends State<Schedule> {
                   _buildTimeHeader(),
                   _buildMealRow('Guest\nBuffet', _guestMeals),
                   _buildMealRow('Event\nBuffet\nOrders', _eventMeals),
-                  ..._shiftRows.map((row) => _buildShiftRow(row)),
+                  ..._shiftRows.asMap().entries.map(
+                    (entry) => _buildShiftRow(entry.value, entry.key),
+                  ),
                 ],
               ),
             ),
@@ -329,20 +331,41 @@ class _ScheduleState extends State<Schedule> {
                     ),
                   ),
                 ),
-                ..._hours.map(
-                  (h) => SizedBox(
+                ..._hours.asMap().entries.map((entry) {
+                  final index = entry.key;
+                  final h = entry.value;
+
+                  final bool isCurrent = index == 0;
+
+                  return SizedBox(
                     width: _kColWidth,
                     height: _kHeaderHeight,
                     child: Container(
+                      alignment: Alignment.center,
+
                       decoration: BoxDecoration(
+                        color: isCurrent ? Colors.black : Colors.white,
+
                         border: Border(
                           bottom: BorderSide(color: Colors.grey.shade300),
                           right: BorderSide(color: Colors.grey.shade300),
                         ),
                       ),
+
+                      child: Text(
+                        isCurrent ? '6:35 AM' : "",
+
+                        style: TextStyle(
+                          fontSize: 11,
+                          fontWeight: FontWeight.w600,
+                          color: isCurrent
+                              ? Colors.white
+                              : const Color(0xFF444444),
+                        ),
+                      ),
                     ),
-                  ),
-                ),
+                  );
+                }),
               ],
             ),
           ],
@@ -375,8 +398,8 @@ class _ScheduleState extends State<Schedule> {
             child: Text(
               label,
               style: const TextStyle(
-                fontSize: 12,
-                fontWeight: FontWeight.w900,
+                fontSize: 14,
+                fontWeight: FontWeight.w500,
                 color: Color(0xFF333333),
               ),
             ),
@@ -411,7 +434,7 @@ class _ScheduleState extends State<Schedule> {
                     child: const Text(
                       'N/A',
                       style: TextStyle(
-                        fontSize: 12,
+                        fontSize: 11,
                         color: Color(0xFF999999),
                         fontWeight: FontWeight.w500,
                       ),
@@ -456,8 +479,8 @@ class _ScheduleState extends State<Schedule> {
               child: Text(
                 b.title,
                 style: const TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
                   color: Color(0xFF222222),
                 ),
               ),
@@ -487,8 +510,8 @@ class _ScheduleState extends State<Schedule> {
                               b.prepLabel!,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
 
@@ -499,7 +522,7 @@ class _ScheduleState extends State<Schedule> {
                                 b.prepTime!,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                  fontSize: 9,
+                                  fontSize: 11,
                                   color: Color(0xFF666666),
                                 ),
                               ),
@@ -513,7 +536,8 @@ class _ScheduleState extends State<Schedule> {
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                  fontSize: 9,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
                                   color: Color.fromARGB(255, 64, 210, 64),
 
                                   decoration: TextDecoration.underline,
@@ -548,8 +572,8 @@ class _ScheduleState extends State<Schedule> {
                               b.serveLabel!,
                               textAlign: TextAlign.center,
                               style: const TextStyle(
-                                fontSize: 10,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 11,
+                                fontWeight: FontWeight.w500,
                               ),
                             ),
 
@@ -560,7 +584,7 @@ class _ScheduleState extends State<Schedule> {
                                 b.serveTime!,
                                 textAlign: TextAlign.center,
                                 style: const TextStyle(
-                                  fontSize: 9,
+                                  fontSize: 11,
                                   color: Color(0xFF666666),
                                 ),
                               ),
@@ -574,7 +598,8 @@ class _ScheduleState extends State<Schedule> {
                                 textAlign: TextAlign.center,
                                 overflow: TextOverflow.ellipsis,
                                 style: const TextStyle(
-                                  fontSize: 9,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w600,
                                   color: Color.fromARGB(255, 64, 210, 64),
 
                                   decoration: TextDecoration.underline,
@@ -601,40 +626,9 @@ class _ScheduleState extends State<Schedule> {
     );
   }
 
-  Widget _mealSubBlock(String label, String time, String? link) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 4),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          Text(
-            label,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 9, color: Color(0xFF555555)),
-          ),
-          const SizedBox(height: 2),
-          Text(
-            time,
-            textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 8.5, color: Color(0xFF777777)),
-          ),
-          if (link != null) ...[
-            const SizedBox(height: 3),
-            Text(
-              link,
-              style: const TextStyle(
-                fontSize: 9,
-                color: Color(0xFF4CAF82),
-                decoration: TextDecoration.underline,
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
-  }
+  Widget _buildShiftRow(List<StaffShift> shifts, int rowIndex) {
+    final bool isYellowRow = rowIndex == 1 || rowIndex == 5;
 
-  Widget _buildShiftRow(List<StaffShift> shifts) {
     return SizedBox(
       height: _kShiftRowHeight,
       child: Row(
@@ -648,18 +642,31 @@ class _ScheduleState extends State<Schedule> {
               ),
             ),
           ),
+
           SizedBox(
             width: _gridWidth(),
-            child: Stack(children: shifts.map(_buildShiftBar).toList()),
+            child: Stack(
+              children: shifts.map((shift) {
+                return _buildShiftBar(shift, isYellowRow);
+              }).toList(),
+            ),
           ),
         ],
       ),
     );
   }
 
-  Widget _buildShiftBar(StaffShift s) {
+  Widget _buildShiftBar(StaffShift s, bool isYellow) {
     final left = _hourToX(s.startHour);
     final width = _hourToWidth(s.startHour, s.endHour);
+
+    final bgColor = isYellow
+        ? const Color(0xFFFFF3CD)
+        : const Color(0xFFD4F4E8);
+
+    final textColor = isYellow
+        ? const Color(0xFFB78103)
+        : const Color(0xFF2D7D57);
 
     return Positioned(
       left: left,
@@ -668,34 +675,40 @@ class _ScheduleState extends State<Schedule> {
       height: _kShiftRowHeight - 12,
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFFD4F4E8),
+          color: bgColor,
           borderRadius: BorderRadius.circular(6),
         ),
+
         padding: const EdgeInsets.symmetric(horizontal: 8),
+
         child: Row(
           children: [
             Text(
               s.duration,
-              style: const TextStyle(
-                fontSize: 10,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF2D7D57),
+              style: TextStyle(
+                fontSize: 12,
+                fontWeight: FontWeight.w500,
+                color: textColor,
               ),
             ),
+
             const Spacer(),
+
             Text(
               s.name,
-              style: const TextStyle(fontSize: 10, color: Color(0xFF333333)),
+              style: const TextStyle(fontSize: 12, color: Color(0xFF333333)),
             ),
+
             Container(
               margin: const EdgeInsets.symmetric(horizontal: 8),
               width: 1,
               height: 14,
               color: Colors.grey.shade400,
             ),
+
             Text(
               s.role,
-              style: const TextStyle(fontSize: 10, color: Color(0xFF333333)),
+              style: const TextStyle(fontSize: 12, color: Color(0xFF333333)),
             ),
           ],
         ),

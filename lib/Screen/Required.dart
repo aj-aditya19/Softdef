@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Required extends StatefulWidget {
   const Required({super.key});
@@ -51,7 +52,8 @@ class _RequiredState extends State<Required> {
                     label: Text(
                       "Item Name",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 11,
                         color: Color.fromARGB(255, 123, 124, 125),
                       ),
                     ),
@@ -61,7 +63,8 @@ class _RequiredState extends State<Required> {
                     label: Text(
                       "Required Quantity",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 11,
                         color: Color.fromARGB(255, 123, 124, 125),
                       ),
                     ),
@@ -71,7 +74,8 @@ class _RequiredState extends State<Required> {
                     label: Text(
                       "Updated By",
                       style: TextStyle(
-                        fontWeight: FontWeight.bold,
+                        fontWeight: FontWeight.w600,
+                        fontSize: 11,
                         color: Color.fromARGB(255, 123, 124, 125),
                       ),
                     ),
@@ -81,7 +85,12 @@ class _RequiredState extends State<Required> {
                 rows: items.map((item) {
                   return DataRow(
                     cells: [
-                      DataCell(Text(item["itemName"]!)),
+                      DataCell(
+                        Text(
+                          item["itemName"]!,
+                          style: GoogleFonts.outfit(fontSize: 11),
+                        ),
+                      ),
                       DataCell(
                         Container(
                           margin: const EdgeInsets.symmetric(
@@ -93,6 +102,8 @@ class _RequiredState extends State<Required> {
                             controller: TextEditingController(
                               text: item["requiredQuantity"],
                             ),
+
+                            style: GoogleFonts.outfit(fontSize: 11),
 
                             decoration: const InputDecoration(
                               border: OutlineInputBorder(
@@ -109,7 +120,12 @@ class _RequiredState extends State<Required> {
                           ),
                         ),
                       ),
-                      DataCell(Text(item["updatedBy"]!)),
+                      DataCell(
+                        Text(
+                          item["updatedBy"]!,
+                          style: GoogleFonts.outfit(fontSize: 11),
+                        ),
+                      ),
                     ],
                   );
                 }).toList(),

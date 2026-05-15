@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Prepared extends StatefulWidget {
   const Prepared({super.key});
@@ -10,12 +11,10 @@ class Prepared extends StatefulWidget {
 class _PreparedState extends State<Prepared> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Center(
-        child: Text(
-          'This is the Prepared Screen',
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
+    return Center(
+      child: Text(
+        'This is the Prepared Screen',
+        style: GoogleFonts.outfit(fontSize: 14, fontWeight: FontWeight.w500),
       ),
     );
   }

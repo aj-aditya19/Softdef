@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class Navbar extends StatefulWidget {
   const Navbar({super.key});
@@ -73,8 +74,8 @@ class _NavbarState extends State<Navbar> {
 
                           Text(
                             navItems[index]["title"],
-                            style: TextStyle(
-                              fontSize: 13,
+                            style: GoogleFonts.outfit(
+                              fontSize: 11,
                               fontWeight: FontWeight.w600,
                               color: isSelected
                                   ? const Color.fromARGB(255, 111, 111, 111)
